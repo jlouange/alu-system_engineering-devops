@@ -2,5 +2,5 @@
 #a bash script to install nginx on the server
 apt-get update -y
 apt-get install -y nginx
-cat "Holberton School" >/var/www/html/index.html
+echo "Holberton School for the win!" >/var/www/html/index.html
 service restart nginx
