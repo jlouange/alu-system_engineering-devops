@@ -8,8 +8,8 @@ server {
   listen 80 default_server;
   root /var/www/html/;
   index index.html;
-  server_name_;
-  rewrite ^/redirect_me https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/302 permanent;
+  server_name _;
+  rewrite ^/redirect_me$ https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/302 permanent;
   location / {
     try_files $uri $uri/ =404;
   }
