@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#a bash script to install nginx on the server
+apt-get update -y
+apt-get install -y nginx
+echo "Holberton School for the win!" >/var/www/html/index.html
+cat <<"EOF" >/etc/nginx/sites-available/default
+server {
+  listen 80;
+  root /var/www/html/;
+  index index.html
+  server_name_;
+  rewrite ^/redirect_me https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/302;
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+EOF
+service nginx restart
