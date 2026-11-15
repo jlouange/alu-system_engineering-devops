@@ -7,10 +7,10 @@ echo "Ceci n'est pas une page" >/var/www/html/404.html
 cat <<'EOF' >/etc/nginx/sites-available/default
 server {
   listen 80 default_server;
-  add_header X-Served-By $hostname always;
   root /var/www/html/;
   index index.html;
   server_name _;
+  add_header X-Served-By $hostname always;
   rewrite ^/redirect_me/?$ https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/302 permanent;
   error_page 404 /404.html;
   location / {
