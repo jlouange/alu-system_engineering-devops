@@ -4,15 +4,24 @@
 sudo apt-get update
 sudo apt-get install -y haproxy
 
-cat << "EOF" > /etc/haproxy/haproxy.cfg
+cat <<"EOF" >/etc/haproxy/haproxy.cfg
+  global 
+    maxconn 2000
+  defaults
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+
   frontend myfrontend
     mode http
     bind *:80
     default_backend web-servers
 
   backend web-servers
+    mode http
     balance roundrobin
-    server web-01 18.170.79.166 check
-    server web-02 3.8.124.233 check
+    option httpchk GET /
+    server web-01 18.170.79.166:80 check
+    server web-02 3.8.124.233:80 check
 EOF
 service haproxy restart
