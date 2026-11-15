@@ -4,10 +4,10 @@ apt-get update -y
 apt-get install -y nginx
 echo "Holberton School for the win!" >/var/www/html/index.html
 echo "Ceci n'est pas une page" >/var/www/html/404.html
-cat <<'EOF' >/etc/nginx/sites-available/default
+cat <<EOF >/etc/nginx/sites-available/default
 server {
   listen 80 default_server;
-  add_header X-Served-By $HOSTNAME always;
+  add_header X-Served-By $hostname always;
   root /var/www/html/;
   index index.html;
   server_name _;
