@@ -1,11 +1,12 @@
-# Increase Nginx open-file limit
+# Increase Nginx file descriptor limit
 
-exec { 'increase-nginx-ulimit':
+exec { 'fix-nginx-limit':
   command => "/bin/sed -i 's/^ULIMIT=.*/ULIMIT=\"-n 4096\"/' /etc/default/nginx",
-  onlyif  => '/usr/bin/test -f /etc/default/nginx',
+  unless  => "/bin/grep -Fxq 'ULIMIT=\"-n 4096\"' /etc/default/nginx",
   notify  => Service['nginx'],
 }
 
 service { 'nginx':
-  ensure => running,
+  ensure     => running,
+  hasrestart => true,
 }
