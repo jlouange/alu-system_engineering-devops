@@ -1,6 +1,11 @@
-# fixing the stack
-exec { 'ULIMIT':
-  onlyif  => 'test -e /etc/default/nginx',
-  command => 'sed -i "5s/[0-9]\+/$( ulimit -n )/" /etc/default/nginx; service nginx restart',
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+# Increase Nginx open-file limit
+
+exec { 'increase-nginx-ulimit':
+  command => "/bin/sed -i 's/^ULIMIT=.*/ULIMIT=\"-n 4096\"/' /etc/default/nginx",
+  onlyif  => '/usr/bin/test -f /etc/default/nginx',
+  notify  => Service['nginx'],
+}
+
+service { 'nginx':
+  ensure => running,
 }
