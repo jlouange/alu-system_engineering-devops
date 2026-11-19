@@ -1,12 +1,7 @@
 # fixing apache
-exec { 'fix-nginx-limit':
-  command => "/bin/sed -i 's/^ULIMIT=.*/ULIMIT=\"-n 4096\"/' /etc/default/nginx",
-  unless  => "/bin/grep -Fxq 'ULIMIT=\"-n 4096\"' /etc/default/nginx",
-  notify  => Service['nginx'],
-}
 
-service { 'nginx':
-  ensure     => running,
-  hasrestart => true,
+exec { 'fix--for-nginx':
+  command  => 'sed -i \'/^[# ]*ULIMIT=/c ULIMIT="-n 4096"\' /etc/default/nginx && service nginx restart',
+  provider => shell,
+  path     => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
 }
-
