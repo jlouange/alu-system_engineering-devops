@@ -1,7 +1,6 @@
-# fixing apache
+# Increase the Nginx file descriptor limit and restart Nginx.
 
-exec { 'fix--for-nginx':
-  command  => 'sed -i \'/^[# ]*ULIMIT=/c ULIMIT="-n 4096"\' /etc/default/nginx && service nginx restart',
+exec { 'fix-nginx-ulimit':
+  command  => '/bin/sed -i \'s/^ULIMIT=.*/ULIMIT="-n 4096"/\' /etc/default/nginx && /usr/sbin/service nginx restart',
   provider => shell,
-  path     => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
 }
